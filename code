@@ -1,0 +1,98 @@
+from tkinter import *
+from tkinter import ttk  # для создания вкладок и фреймов
+from tkinter import font  # для создания шрифтового объекта
+from PIL import Image, ImageTk  # для импорта файлов формата JPG
+import pygame as pg  # для звука
+
+
+tk = Tk()
+tk.title("Nightcore - Die Young")
+tk.geometry("1024x640+0+0")
+tk.resizable(width=False, height=False)
+
+# создаем набор вкладок
+nb = ttk.Notebook()
+nb.pack(expand=True)
+style = ttk.Style()
+style.configure('TFrame', bg="wheat2")
+
+
+
+# создаем набор фреймов
+
+fr3 = ttk.Frame(nb, borderwidth=5, relief='groove')
+
+
+
+fr3.pack(fill=BOTH, expand=True)
+
+
+
+# добавляем фреймы в качестве вкладок
+
+
+
+nb.add(fr3, text='Nightcore - Die Young', compound=LEFT)
+
+
+fnt = font.Font(family='Arial', size=12, weight='bold', slant='roman')  # для подписей к фото
+fnt_txt = font.Font(family="Times New Roman", size=14)  # для многострочного текста
+
+
+#3
+def m_play():
+    pg.mixer.music.play()
+    btn2.config(state="active")
+    btn3.config(state="disabled")
+    btn4.config(state="active")
+
+
+def m_pause():
+    pg.mixer.music.pause()
+    btn2.config(state="disabled")
+    btn3.config(state="active")
+
+
+def m_unpause():
+    pg.mixer.music.unpause()
+    btn2.config(state="active")
+    btn3.config(state="disabled")
+
+
+def m_stop():
+    pg.mixer.music.stop()
+    btn2.config(state="disabled")
+    btn3.config(state="disabled")
+    btn4.config(state="disabled")
+
+with open("die young.txt", "r") as f:
+  s1 = "".join(f.readlines())
+
+c3 = Canvas( fr3,width=1024, height=640,bg= 'wheat2')
+c3.pack()
+im = ImageTk.PhotoImage(file="play.png")
+im2 = ImageTk.PhotoImage(file="pause.png")
+im3 = ImageTk.PhotoImage(file="unpause.png")
+im4 = ImageTk.PhotoImage(file="stop.png")
+
+f = Image.open("Die Young.png")
+f =f.resize((600,400), Image.LANCZOS)
+f = ImageTk.PhotoImage(f)
+lbl3 = Label(fr3, image=f)
+lbl3.image = f
+lbl3.place(x=400, y=40)
+pg.mixer.init()
+pg.mixer.music.load("Die Young.mp3")
+
+lbl4_2 =Label(fr3, text=s1,font=fnt_txt,fg='lightpink3',bg='antique white', justify=LEFT, wraplength=400)
+btn1 = Button(fr3,image=im, width=40, bg = 'wheat2',command=m_play)
+btn2 = Button(fr3,image=im2, width=40, bg = 'wheat2',command=m_pause, state="disabled")
+btn3 = Button(fr3,image=im3, width=40, bg = 'wheat2',command=m_unpause, state="disabled")
+btn4 = Button(fr3,image=im4, width=40,bg = 'wheat2' ,command=m_stop, state="disabled")
+btn1.place(x=530, y=460)
+btn2.place(x=630, y=460)
+btn3.place(x=730, y=460)
+btn4.place(x=830, y=460)
+lbl4_2.place(x=0,y=180, anchor=NW)
+
+
